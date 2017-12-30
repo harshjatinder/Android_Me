@@ -19,44 +19,53 @@ class BodyPartFragment : Fragment() {
     private val IMAGE_ID_LIST = "image_id_list"
     private val LIST_INDEX = "list_index"
 
-    private val imageIds = ArrayList<Int>()
-    private var listIndex = 0
+    private val mImageIds = ArrayList<Int>()
+    private var mListIndex = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         if (savedInstanceState != null) {
-            imageIds.addAll(savedInstanceState.getIntegerArrayList(IMAGE_ID_LIST))
-            listIndex = savedInstanceState.getInt(LIST_INDEX)
+            mImageIds.addAll(savedInstanceState.getIntegerArrayList(IMAGE_ID_LIST))
+            mListIndex = savedInstanceState.getInt(LIST_INDEX)
         }
         return inflater.inflate(R.layout.fragment_body_part, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ivBodyPart.setImageResource(imageIds[listIndex])
+        setupView()
+//        setupListener()
+    }
+
+    private fun setupListener() {
         ivBodyPart.setOnClickListener({
-            if (!imageIds.isEmpty()) {
-                listIndex++
-                if (listIndex == imageIds.size) {
-                    listIndex = 0
+            if (!mImageIds.isEmpty()) {
+                mListIndex++
+                if (mListIndex == mImageIds.size) {
+                    mListIndex = 0
                 }
-                ivBodyPart.setImageResource(imageIds[listIndex])
+                ivBodyPart.setImageResource(mImageIds[mListIndex])
             } else {
-                Log.d(TAG, "OnClickListener : imageIds.length = ${imageIds.size}")
+                Log.d(TAG, "OnClickListener : mImageIds.length = ${mImageIds.size}")
             }
         })
     }
 
+    fun setupView() {
+        ivBodyPart.setImageResource(mImageIds[mListIndex])
+    }
+
     fun setImageIds(imageList: List<Int>) {
-        this.imageIds.addAll(imageList)
+        this.mImageIds.addAll(imageList)
     }
 
     fun setListIndex(index: Int) {
-        this.listIndex = index
+        this.mListIndex = index
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putIntegerArrayList(IMAGE_ID_LIST, imageIds)
-        outState.putInt(LIST_INDEX, listIndex)
+        outState.putIntegerArrayList(IMAGE_ID_LIST, mImageIds)
+        outState.putInt(LIST_INDEX, mListIndex)
     }
+
 }

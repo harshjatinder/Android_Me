@@ -1,6 +1,7 @@
 package `in`.dev_op.androidme.ui
 
 import `in`.dev_op.androidme.R
+import `in`.dev_op.androidme.constants.EXTRAS
 import `in`.dev_op.androidme.data.AndroidImageAssets
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -29,9 +30,15 @@ class AndroidMeActivity : AppCompatActivity() {
         bodyFragment.setImageIds(AndroidImageAssets.getBodies())
         legFragment.setImageIds(AndroidImageAssets.getLegs())
 
-        headFragment.setListIndex(0)
-        bodyFragment.setListIndex(0)
-        legFragment.setListIndex(0)
+
+        if (intent.extras != null) {
+            val bundle = intent.extras
+            headFragment.setListIndex(bundle.getInt(EXTRAS.HEAD_INDEX))
+            bodyFragment.setListIndex(bundle.getInt(EXTRAS.BODY_INDEX))
+            legFragment.setListIndex(bundle.getInt(EXTRAS.LEG_INDEX))
+        } else {
+            throw NullPointerException("Bundle Not received!")
+        }
 
         supportFragmentManager.beginTransaction()
                 .add(headContainer.id, headFragment)
