@@ -5,10 +5,10 @@ import `in`.dev_op.androidme.data.AndroidImageAssets
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridView
 import kotlinx.android.synthetic.main.fragment_master_list.*
 
 /**
@@ -35,9 +35,9 @@ class MasterListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mMasterListAdapter = MasterListAdapter(AndroidImageAssets.getAll(), mCallback)
-        gridView.numColumns = 2
-        gridView.stretchMode = GridView.STRETCH_COLUMN_WIDTH
-        gridView.adapter = mMasterListAdapter
+        recyclerView.adapter = mMasterListAdapter
+        recyclerView.layoutManager = GridLayoutManager(context, 2,
+                GridLayoutManager.VERTICAL, false)
     }
 
 }

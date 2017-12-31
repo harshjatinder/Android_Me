@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity(), OnImageClickListener {
     }
 
     private fun setupMasterDetailFragments() {
+        btNext.visibility = View.GONE
         if (mShowMasterDetail) {
 
             mHeadFragment = BodyPartFragment()
@@ -45,12 +46,18 @@ class MainActivity : AppCompatActivity(), OnImageClickListener {
             mHeadFragment.setImageIds(AndroidImageAssets.getHeads())
             mBodyFragment.setImageIds(AndroidImageAssets.getBodies())
             mLegFragment.setImageIds(AndroidImageAssets.getLegs())
+
+            val enableClickEvent = Bundle()
+            enableClickEvent.putBoolean(EXTRAS.SET_LISTENERS, false)
+            mHeadFragment.arguments = enableClickEvent
+            mBodyFragment.arguments = enableClickEvent
+            mLegFragment.arguments = enableClickEvent
+
             supportFragmentManager.beginTransaction()
                     .add(R.id.headContainer, mHeadFragment)
                     .add(R.id.bodyContainer, mBodyFragment)
                     .add(R.id.legContainer, mLegFragment)
                     .commit()
-            btNext.visibility = View.GONE
         }
     }
 
@@ -83,7 +90,7 @@ class MainActivity : AppCompatActivity(), OnImageClickListener {
 
             val intent = Intent(this, AndroidMeActivity::class.java)
             intent.putExtras(bundle)
-
+            btNext.visibility = View.VISIBLE
             btNext.setOnClickListener({ startActivity(intent) })
         }
     }

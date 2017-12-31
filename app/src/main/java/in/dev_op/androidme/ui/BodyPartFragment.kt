@@ -1,6 +1,7 @@
 package `in`.dev_op.androidme.ui
 
 import `in`.dev_op.androidme.R
+import `in`.dev_op.androidme.constants.EXTRAS
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -34,7 +35,7 @@ class BodyPartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
-//        setupListener()
+        if (arguments!!.getBoolean(EXTRAS.SET_LISTENERS, false)) setupListener()
     }
 
     private fun setupListener() {

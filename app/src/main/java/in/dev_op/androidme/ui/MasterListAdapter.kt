@@ -1,8 +1,8 @@
 package `in`.dev_op.androidme.ui
 
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
 import android.widget.ImageView
 
 /**
@@ -10,36 +10,30 @@ import android.widget.ImageView
  * Adapter to inflate and handle Grid of Available Images
  */
 class MasterListAdapter(private val mImageIds: List<Int>,
-                        private val mListener: OnImageClickListener) : BaseAdapter() {
-
-    override fun getItemId(position: Int): Long {
-        return 0
+                        private val mListener: OnImageClickListener) : RecyclerView.Adapter<MasterListAdapter.Holder>() {
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): Holder {
+        return Holder(ImageView(parent!!.context))
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val imageView: ImageView
-        if (convertView == null) {
-            imageView = ImageView(parent!!.context)
-            imageView.adjustViewBounds = true
-            imageView.scaleType = ImageView.ScaleType.FIT_CENTER
-            imageView.setPadding(8, 8, 8, 8)
-        } else {
-            imageView = convertView as ImageView
-        }
-        imageView.setImageResource(mImageIds[position])
-        imageView.setOnClickListener({
-            mListener.onImageSelected(position)
-        })
-        return imageView
-    }
-
-    override fun getItem(position: Int): Any? {
-        return null
-    }
-
-
-    override fun getCount(): Int {
+    override fun getItemCount(): Int {
         return mImageIds.size
+    }
+
+    override fun onBindViewHolder(holder: Holder?, position: Int) {
+        holder!!.mImageView.setImageResource(mImageIds[position])
+        holder.mImageView.setOnClickListener({ mListener.onImageSelected(position) })
+    }
+
+    inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        val mImageView: ImageView
+
+        init {
+            mImageView = itemView as ImageView
+            mImageView.adjustViewBounds = true
+            mImageView.scaleType = ImageView.ScaleType.FIT_CENTER
+            mImageView.setPadding(8, 8, 8, 8)
+        }
     }
 
 }

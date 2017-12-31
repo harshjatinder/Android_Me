@@ -30,7 +30,6 @@ class AndroidMeActivity : AppCompatActivity() {
         bodyFragment.setImageIds(AndroidImageAssets.getBodies())
         legFragment.setImageIds(AndroidImageAssets.getLegs())
 
-
         if (intent.extras != null) {
             val bundle = intent.extras
             headFragment.setListIndex(bundle.getInt(EXTRAS.HEAD_INDEX))
@@ -39,6 +38,12 @@ class AndroidMeActivity : AppCompatActivity() {
         } else {
             throw NullPointerException("Bundle Not received!")
         }
+
+        val enableClickEvent = Bundle()
+        enableClickEvent.putBoolean(EXTRAS.SET_LISTENERS, true)
+        headFragment.arguments = enableClickEvent
+        bodyFragment.arguments = enableClickEvent
+        legFragment.arguments = enableClickEvent
 
         supportFragmentManager.beginTransaction()
                 .add(headContainer.id, headFragment)
